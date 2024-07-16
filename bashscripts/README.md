@@ -1,5 +1,6 @@
 # Bash Scripts I wrote
 
 ## add_local_user.sh
-This scripts prompts the user for a new user details and creates the credentials (after checking for root access).
-<small>(Date written: 09-07-24 ג תמוז תשפד)</small>
+Written for Help Desk for easily adding users accounts on linux.
+<i>Usage: add_local_user.sh Username Realname</i>
+<small>(Date written: 16-07-24 י תמוז תשפד)</small>

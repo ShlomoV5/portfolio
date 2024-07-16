@@ -1,0 +1,49 @@
+---
+- name: Setup Kubernetes Cluster and Deploy Application
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Install necessary packages
+      apt:
+        name:
+          - docker.io
+          - python3-pip
+          - curl
+        state: present
+      become: true
+
+    - name: Install kubeadm, kubelet, and kubectl
+      apt:
+        name:
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: present
+      become: true
+
+    - name: Initialize Kubernetes cluster
+      command: kubeadm init --ignore-preflight-errors all
+      args:
+        creates: /etc/kubernetes/admin.conf
+
+    - name: Create .kube directory
+      become: yes
+      file:
+        path: "{{ lookup('env', 'HOME') }}/.kube"
+        state: directory
+        mode: 0755
+        
+    - name: Copy admin.conf to .kube
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: "{{ lookup('env', 'HOME') }}/.kube/config"
+        remote_src: yes
+        owner: ubuntu
+
+    - name: Apply network plugin (Calico)
+      kubernetes.core.k8s:
+        src: https://docs.projectcalico.org/manifests/calico.yaml
+        apply: true
+
+    - name: Allow scheduling on the master node (for single-node cluster)
+      command: kubectl taint nodes --all node-role.kubernetes.io/master-

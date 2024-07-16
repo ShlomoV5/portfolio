@@ -1,11 +1,14 @@
 #!/bin/bash
 
 #############################################
-# ADD LOCAL USER SCRIPT                     #
+# ADD LOCAL USER SCRIPT - VERSION 2         #
 #############################################
 
 # This script adds a local user. Checks if action was successfull
 # And returns a nice user ticket
+# VERSION 2:
+# 1. instead of prompt, username and Real Name will be given as paramaters
+# 2. Password will be auto-generated.
 
 # Check if root user:
 if [[ "${UID}" -ne 0 ]] # not root user
@@ -14,10 +17,21 @@ then
     exit 1
 fi
 
-# Accept user details from prompt
-read -p "Enter the desired username: " USER_NAME
-read -p "Enter the user's real name: " REAL_NAME
-read -p "Enter desired password: " PASSWORD
+# Check if given at least 2 paramaters:
+if [[ "${#}" -le 1 ]]
+then
+    echo "USAGE: ./add_new_local_user.sh USERNAME REAL NAME"
+    echo "(All words after username will be considered real name)"
+    exit 1
+fi
+
+# Accept user details from paramaters
+USER_NAME=${1}
+shift # move all parameters back, stay with all parameters but username
+REAL_NAME=${@}
+
+# Create a random password
+PASSWORD=$(date +%s%N${RANDOM} | sha256sum | head -c12)
 
 # Create the user
 useradd -c "${REAL_NAME}" -m "${USER_NAME}"

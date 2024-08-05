@@ -13,29 +13,32 @@ chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resou
 chrome_service = Service('chromedriver.exe')  # Provide path to your ChromeDriver executable
 driver = webdriver.Chrome(service=chrome_service, options=chrome_options) 
 
-    
 # Function to extract data from a single page
 def extract_data_from_page(url):
-
-    
     driver.get(url)
     html_content = driver.page_source
-    
 
     soup = BeautifulSoup(html_content, 'html.parser')
 
+    # Identifies each soldier <div> in the page by its CSS class --> items
     items = soup.find_all('div', class_='col-lg-6 col-md-6 wrap-item')
     
     data = []
     for item in items:
+        
+        # get soldier's rank and name
         name_data = re.split(r'\s{2,}', item.find('div', class_='solder-name').text.strip())
         rank = name_data[0]
         name = name_data[1]
+        
+        # get soldier's unit
         additional_info = item.find('div', class_='sub-counter').text.strip()
         if item.find('p'):
             date_up = item.find('p').text.strip()
         else:
             date_up = ''
+
+        # get soldier's picture URL (unfortunately Canva's batch document engine doesn't support images)
         image = "https://www.idf.il/" + item.find('div', class_='soldier-image').find('img')['src'].split('?')[0]
         data.append([rank, name, additional_info, date_up, image])
     return data
@@ -54,7 +57,7 @@ def scrape_all_pages(base_url, num_pages):
 
 # URL of the first page
 base_url = "https://www.idf.il/%D7%A0%D7%95%D7%A4%D7%9C%D7%99%D7%9D/%D7%97%D7%9C%D7%9C%D7%99-%D7%94%D7%9E%D7%9C%D7%97%D7%9E%D7%94/"
-num_pages = 60
+num_pages = 60 # Has to be updated manually
 
 # Scrape all pages
 all_data = scrape_all_pages(base_url, num_pages)

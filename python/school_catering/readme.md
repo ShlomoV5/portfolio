@@ -77,3 +77,68 @@ To run the application, use:
 
 ```bash
 flask run
+```
+
+The app will be available at `http://127.0.0.1:5000/`.
+
+## Project Structure
+
+```
+school_catering/
+│
+├── app/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── models.py
+│   ├── utils.py
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   ├── dashboard.py
+│   │   ├── meal_distribution.py
+│   │   └── parents.py
+│   └── templates/
+│       ├── dashboard.html
+│       └── meal_distribution.html
+├── migrations/
+│   └── ...
+├── requirements.txt
+└── run.py
+```
+
+### Routes
+
+- **Auth Routes (`app/routes/auth.py`)**: Handles user signup and email verification.
+- **Dashboard Routes (`app/routes/dashboard.py`)**: Handles the manager's dashboard.
+- **Meal Distribution Routes (`app/routes/meal_distribution.py`)**: Handles meal distribution.
+- **Parent Routes (`app/routes/parents.py`)**: Handles parents' functionalities.
+
+## Testing
+
+To test the application using Postman:
+
+1. Start the Flask application by running `flask run`.
+2. Use Postman to send requests to the following endpoints:
+
+    - **Sign up**: `POST /signup`
+    - **Verify Email**: `GET /verify/<token>`
+    - **Report Absence**: `POST /absence`
+    - **Dashboard**: `GET /dashboard`
+    - **Meal Distribution**: `GET /meal_distribution`, `POST /meal_distribution`
+
+For example, to sign up a user:
+
+- URL: `http://127.0.0.1:5000/signup`
+- Method: `POST`
+- Body (JSON):
+    ```json
+    {
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "password": "Password123!"
+    }
+    ```
+
+## License
+
+This project is licensed under the MIT License.

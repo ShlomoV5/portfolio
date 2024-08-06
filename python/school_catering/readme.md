@@ -1,4 +1,4 @@
-# School Catering Management App
+# ORLY: School Catering Management App
 
 ## Description
 An app for managing school catering, allowing managers to handle meal distribution and parents to choose meals and track budgets.

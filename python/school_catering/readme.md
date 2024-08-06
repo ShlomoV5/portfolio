@@ -121,10 +121,35 @@ To test the application using Postman:
 2. Use Postman to send requests to the following endpoints:
 
     - **Sign up**: `POST /signup`
+        - **Required Parameters**:
+            - `name` (string): The name of the parent.
+            - `email` (string): The email address of the parent.
+            - `password` (string): The password for the account.
+    
     - **Verify Email**: `GET /verify/<token>`
+        - **Required Parameters**:
+            - `token` (string): The verification token sent to the email.
+
     - **Report Absence**: `POST /absence`
+        - **Required Parameters**:
+            - `student_id` (integer): The ID of the student.
+            - `date` (string): The date of absence in YYYY-MM-DD format.
+    
     - **Dashboard**: `GET /dashboard`
-    - **Meal Distribution**: `GET /meal_distribution`, `POST /meal_distribution`
+        - **Query Parameters**:
+            - `date` (string, optional): The date for the dashboard view in YYYY-MM-DD format. Defaults to today.
+
+    - **Meal Distribution**: `GET /meal_distribution`
+        - **Query Parameters**:
+            - `date` (string, optional): The date for meal distribution in YYYY-MM-DD format. Defaults to today.
+    
+      `POST /meal_distribution`
+        - **Required Parameters**:
+            - `class_id` (integer): The ID of the class.
+            - `student_meal_status` (array of objects):
+                - `student_id` (integer): The ID of the student.
+                - `status` (string): The meal status ('Given', 'Away', 'Did not get the meal').
+
 
 For example, to sign up a user:
 

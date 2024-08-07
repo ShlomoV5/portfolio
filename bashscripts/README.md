@@ -5,7 +5,7 @@
 <p>User must change password on login.</p>
 
 ## docker-on-docker.sh
-Originally written when I was experimenting in Jenkins (as a Docker image) and needed to build a docker image without using an external node. I didn't know there was an official Docker in Docker image, and also there's no Jenkins on it...
+Originally written when I was experimenting in Jenkins (as a Docker image) and needed to build a docker image without using an external node. I didn't know there was an official Docker in Docker image, and also there's no Jenkins on it... SCP this script to the container and run it to install Docker.
 
 ## tree-to-filesystem.sh
 This script takes a graphical file structure (the ones AI chats usually give you) from file structure.txt and creates it using mkdir and touch commands.

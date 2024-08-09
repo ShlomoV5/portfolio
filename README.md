@@ -1,2 +1,6 @@
 # Shlomo's portfolio
-Welcome. I am still building my portfolio, check back soon!
+## What you can find here:
+### - Ansible Playbooks
+### - Bash scripts
+### - Some examples from my Teaching experience
+### - Python projects and scripts

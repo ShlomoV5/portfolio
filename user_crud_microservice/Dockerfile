@@ -3,6 +3,9 @@ FROM python:3.9-slim-buster
 # Create app directory
 WORKDIR /app
 
+# install dependencies
+RUN apt-get update && apt-get install -y libpq-dev gcc build-essential postgresql postgresql-contrib
+
 # Copy requirements and install
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt

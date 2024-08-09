@@ -1,19 +1,21 @@
-# Use an official Python runtime as a parent image
 FROM python:3.9-slim-buster
 
-# Set the working directory in the container
+# Create app directory
 WORKDIR /app
 
-# Copy requirements file and install dependencies
+# Copy requirements and install
 COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt   
+RUN pip install -r requirements.txt
 
-
-# Copy the rest of the application code
+# Copy application code
 COPY . .
 
-# Expose the port the app will run on
-EXPOSE 5000
+# PostgreSQL setup
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
 
-# Command to run the application
-CMD ["python", "app.py"]
+# Expose application and database ports
+EXPOSE 5000 5432
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["python", "app/app.py"]

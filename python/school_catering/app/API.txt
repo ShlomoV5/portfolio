@@ -1,0 +1,42 @@
+# Version 1.0 (August 10, 2024)
+
+## Authentication (`auth.py`)
+- POST `/auth/register`: Register a new user (manager or parent).
+- POST `/auth/login`: Login and obtain a token.
+- POST `/auth/logout`: Logout a user by invalidating their token.
+- POST `/auth/reset_password`: Send a password reset email.
+- POST `/auth/update_password`: Update a user's password.
+
+## Parents (`parents.py`)
+- POST `/parents/report_absence`: Report a student's absence for a specific day.
+- POST `/parents/add_student`: Add a student to a family (attributes: student name, class, family).
+- GET `/parents/view_dashboard`: View parent's dashboard with meal and attendance information.
+
+## Menu Management (`menu.py`)
+- GET `/menu/show_meals`: Display the available meals (name, image_url).
+- POST `/menu/add_meals`: Add a new meal to the available meals.
+- GET `/menu/show_regular_menu`: Show the regular menu (days 1, 2, 4, 5).
+- PUT `/menu/edit_regular_menu`: Edit the regular menu to update all days and choose one or more meals for each day in a single API request.
+- GET `/menu/show_week_menu`: Display the week's menu, checking for special meals.
+- POST `/menu/add_special_meal`: Add a special meal for a specific date (date, meal(s)).
+
+## Meal Distribution (`meal_giveout.py`)
+- POST `/meal_giveout/record_meal_distribution`: Record the distribution of meals to students for a specific class and day.
+
+## Dashboard (`dashboard.py`)
+- GET `/dashboard/manager`: Manager's dashboard overview for the current day.
+  - Number of students receiving meals today.
+  - Number of students absent today with a list of names.
+  - List of available meals today.
+  - Number of students who should receive each meal today.
+  - Number of students absent today (manually updated).
+  - Number of students who have received their meal today.
+- GET `/dashboard/parent`: Parent's dashboard for their children’s meal and attendance status.
+
+## Test (`test.py`)
+- GET `/test/tables`: Fetch all table names from the database.
+- GET `/test/tables/<int:table_number>`: Fetch the latest 10 records from a specified table.
+- POST `/test/state1`: Reset and populate the database with sample data for testing.
+
+## Main (`main.py`)
+- GET `/`: Home or welcome page for the application.

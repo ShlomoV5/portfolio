@@ -1,5 +1,7 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, session, flash
 from app.models import db, User
+from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash
 from app.utils import validate_email, validate_password, hash_password, generate_verification_token, save_token_to_db, send_verification_email
 
 auth_bp = Blueprint('auth', __name__)
@@ -16,6 +18,10 @@ def signup():
 
     if not validate_password(password):
         return jsonify({'message': 'Invalid password'}), 400
+
+    existing_user = User.query.filter_by(email=email).first()
+    if existing_user:
+        return jsonify({'error': 'Email address already in use'}), 400
 
     hashed_password = hash_password(password)
     user = User(name=name, email=email, password=hashed_password, status='pending')
@@ -40,3 +46,28 @@ def verify_email(token):
         return jsonify({'message': 'Email verified successfully!'}), 200
     else:
         return jsonify({'message': 'Invalid or expired token'}), 400
+
+@auth_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email=email).first()
+
+        if user and check_password_hash(user.password, password):
+            session['user_id'] = user.id
+            if user.email == 'orly@orly.com':
+                session['is_manager'] = True
+                return redirect(url_for('dashboard.manager_dashboard'))
+            else:
+                session['is_manager'] = False
+                return redirect(url_for('dashboard.parent_dashboard'))
+
+        return render_template('login.html', error='Invalid credentials')
+
+    return render_template('login.html')
+
+@auth_bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('auth.login'))

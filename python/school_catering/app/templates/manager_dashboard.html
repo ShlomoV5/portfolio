@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h2>Manager Dashboard</h2>
+    <div class="meals-this-week">
+        <h3>Meals This Week</h3>
+        <div id="meals-list">
+            <!-- Meals will be loaded here -->
+        </div>
+    </div>
+    <div class="meals-today">
+        <h3>Meals Today</h3>
+        <div id="meals-today">
+            <!-- Number of meals today will be displayed here -->
+        </div>
+    </div>
+    <div class="absences-today">
+        <h3>Absences Today</h3>
+        <div id="absences-today">
+            <!-- Absences today will be displayed here -->
+        </div>
+    </div>
+</div>
+{% endblock %}

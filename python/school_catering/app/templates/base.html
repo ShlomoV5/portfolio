@@ -1,0 +1,23 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}קייטרינג אורלי{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+            <li><a href="{{ url_for('auth.signup') }}">Signup</a></li>
+            {% if session.get('is_manager') %}
+                <li><a href="{{ url_for('dashboard.manager_dashboard') }}">Manager Dashboard</a></li>
+            {% else %}
+                <li><a href="{{ url_for('dashboard.parent_dashboard') }}">Parent Dashboard</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% block content %}{% endblock %}
+</body>
+</html>

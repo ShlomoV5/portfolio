@@ -1,169 +1,104 @@
 # ORLY: School Catering Management App
 
-This is a School Catering Management App that helps manage meal distributions for school students. It has functionalities for both managers and parents.
+## Overview
+ORLY is an application designed to manage school catering efficiently. It provides functionalities for both managers and parents to handle meal distribution, track absences, and manage meal preferences.
 
 ## Features
 
-### Manager Functions:
-- Manually sign up family name, kids, grades.
-- Approve parents' sign up.
-- Choose food available for each day, and make temporary changes such as "no school today" or "today only this meal type is available".
-- Lunch give out screen: select class, see meal selections by student, tick out kids who got lunch, or choose "not in school today".
-- See archived and current month meal consumption and budget by family and by student.
-- Add discount for mistakes, problems, etc to subtract from month total.
+### For Managers:
+- **Sign Up Families:** Manually sign up family names, kids, and grades.
+- **Approve Parents' Sign Up:** Approve or reject parent sign-ups.
+- **Meal Management:**
+  - **Show Meals:** Display available meals and their details.
+  - **Add Meals:** Add new meal options.
+  - **Show Regular Menu:** View regular menu options for specific days.
+  - **Edit Regular Menu:** Modify the regular menu to select meals for each day.
+  - **Show Week Menu:** View the week's menu and check for special meals.
+  - **Add Special Meals:** Add special meal options for specific dates.
+- **Meal Giveout Management:**
+  - **Give Out Meals:** Mark students as having received their meals.
+  - **Delete Giveout Records:** Remove a meal giveout record if marked incorrectly.
+  - **Check Meal Status:** Verify if a student received their meal on a specific date.
+- **Dashboard:**
+  - **View Meal Availability:** See available meals for today.
+  - **Track Meal Distribution:** Check how many kids should receive meals today, how many are absent, and how many received their meal.
+  - **Manage Absences and Giveout Records:** Update meal distribution and absence information.
 
-### Parent Functions:
-- Sign up.
-- Choose weekly food for each day (Sun-Thu excluding Tue) by Saturday midnight. If not chosen, the default meal is charged.
-- Report "child not in school today" by 7 AM each day.
-- See archived and current month meal consumption and budget by child.
+### For Parents:
+- **Sign Up:** Register and get approval to use the system.
+- **Meal Preferences:** Choose meal preferences for each day of the week.
+- **Report Absences:** Inform the system if a child is not in school.
+- **View Budget and Consumption:** Track the monthly meal consumption and budget.
 
-## Setup Instructions
+## Installation
 
-### Prerequisites
-
-- Python 3.8+
+### Requirements
+- Python 3.x
 - Flask
 - SQLAlchemy
-- Flask-Migrate
-- Flask-Mail
 - PyJWT
+- SQLite (or other SQL database)
 
-### Installation
-
+### Setup
 1. Clone the repository:
-
-    ```bash
-    git clone https://github.com/yourusername/school_catering.git
-    cd school_catering
-    ```
-
-2. Create and activate a virtual environment:
-
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
-
-3. Install the dependencies:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4. Set up environment variables (you can also use a `.env` file):
-
-    ```bash
-    export FLASK_APP=run.py
-    export FLASK_ENV=development
-    export SECRET_KEY='your_secret_key'
-    export MAIL_SERVER='smtp.example.com'
-    export MAIL_PORT=587
-    export MAIL_USERNAME='your_email@example.com'
-    export MAIL_PASSWORD='your_password'
-    ```
-
-5. Initialize the database:
-
-    ```bash
-    flask db init
-    flask db migrate -m "Initial migration."
-    flask db upgrade
-    ```
+   ```
+   git clone <repository-url>
+   ```
+2. Navigate to the project directory:
+   ```
+   cd school_catering
+   ```
+3. Install the required packages:
+   ```
+   pip install -r requirements.txt
+   ```
 
 ### Running the Application
+1. Set environment variables for Flask:
+   ```
+   export FLASK_APP=app
+   export FLASK_ENV=development
+   ```
+2. Initialize the database (if needed):
+   ```
+   flask db upgrade
+   ```
+3. Run the application:
+   ```
+   flask run
+   ```
+   The app will be available at http://127.0.0.1:5000/.
 
-To run the application, use:
+## API Endpoints
 
-```bash
-flask run
-```
+### Authentication
+- **POST /auth/signup:** Register a new user.
+- **POST /auth/login:** Authenticate and get a JWT token.
 
-The app will be available at `http://127.0.0.1:5000/`.
+### Parents
+- **POST /parents/report_absence:** Report an absence for a student.
+- **POST /parents/add_child:** Add a child to a family (manager only).
 
-## Project Structure
+### Menu
+- **GET /menu/show_meals:** Display available meals.
+- **POST /menu/add_meals:** Add a new meal.
+- **GET /menu/show_regular_menu:** Show the regular menu.
+- **POST /menu/edit_regular_menu:** Edit the regular menu.
+- **GET /menu/show_week_menu:** View the week’s menu.
+- **POST /menu/add_special_meal:** Add special meal options for specific dates.
 
-```
-school_catering/
-│
-├── app/
-│   ├── __init__.py
-│   ├── config.py
-│   ├── models.py
-│   ├── utils.py
-│   ├── routes/
-│   │   ├── __init__.py
-│   │   ├── auth.py
-│   │   ├── dashboard.py
-│   │   ├── meal_distribution.py
-│   │   └── parents.py
-│   └── templates/
-│       ├── dashboard.html
-│       └── meal_distribution.html
-├── migrations/
-│   └── ...
-├── requirements.txt
-└── run.py
-```
+### Meal Giveout
+- **POST /meal_giveout:** Mark students as having received their meals.
+- **DELETE /meal_giveout:** Remove a meal giveout record.
+- **GET /meal_giveout/check_if_got:** Check if a student received their meal on a specific date.
 
-### Routes
+### Testing
+- **GET /test/tables:** List all tables in the database.
+- **GET /test/tables/<table_number>:** Show the latest 10 records from a specific table.
 
-- **Auth Routes (`app/routes/auth.py`)**: Handles user signup and email verification.
-- **Dashboard Routes (`app/routes/dashboard.py`)**: Handles the manager's dashboard.
-- **Meal Distribution Routes (`app/routes/meal_distribution.py`)**: Handles meal distribution.
-- **Parent Routes (`app/routes/parents.py`)**: Handles parents' functionalities.
-
-## Testing
-
-To test the application using Postman:
-
-1. Start the Flask application by running `flask run`.
-2. Use Postman to send requests to the following endpoints:
-
-    - **Sign up**: `POST /signup`
-        - **Required Parameters**:
-            - `name` (string): The name of the parent.
-            - `email` (string): The email address of the parent.
-            - `password` (string): The password for the account.
-    
-    - **Verify Email**: `GET /verify/<token>`
-        - **Required Parameters**:
-            - `token` (string): The verification token sent to the email.
-
-    - **Report Absence**: `POST /absence`
-        - **Required Parameters**:
-            - `student_id` (integer): The ID of the student.
-            - `date` (string): The date of absence in YYYY-MM-DD format.
-    
-    - **Dashboard**: `GET /dashboard`
-        - **Query Parameters**:
-            - `date` (string, optional): The date for the dashboard view in YYYY-MM-DD format. Defaults to today.
-
-    - **Meal Distribution**: `GET /meal_distribution`
-        - **Query Parameters**:
-            - `date` (string, optional): The date for meal distribution in YYYY-MM-DD format. Defaults to today.
-    
-      `POST /meal_distribution`
-        - **Required Parameters**:
-            - `class_id` (integer): The ID of the class.
-            - `student_meal_status` (array of objects):
-                - `student_id` (integer): The ID of the student.
-                - `status` (string): The meal status ('Given', 'Away', 'Did not get the meal').
-
-
-For example, to sign up a user:
-
-- URL: `http://127.0.0.1:5000/signup`
-- Method: `POST`
-- Body (JSON):
-    ```json
-    {
-        "name": "John Doe",
-        "email": "john.doe@example.com",
-        "password": "Password123!"
-    }
-    ```
+## Notes
+- Ensure that the `config.py` file is properly configured with your environment settings.
+- For email functionality, the configuration needs to be updated with valid SMTP settings.
 
 ## License
-
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

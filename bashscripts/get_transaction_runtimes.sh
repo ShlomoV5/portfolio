@@ -1,6 +1,9 @@
 #!/bin/bash
-# this script recieves a log like in this example:
-
+# this script recieves a log like the example file (exam.log) and finds all transactions and their id,
+# and creates a list of id/runtime according to the timestamp of start and end.
+# I'm very proud of learning how to do this in just like 30 minutes... I love these challenges and can
+# do them for hours! (Thanks for the institute who gave me this assignment as an exam, I can't
+# credit them explicitly so that I don't ruin their exam =)
 
 grep -E 'transaction [0-9]+ begun|transaction done' exam.log | \
 cut -f 1,5 | \

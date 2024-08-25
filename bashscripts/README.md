@@ -20,3 +20,6 @@ base_dir/
 ├── file4
 └── file5
 ````
+
+## get_transaction_runtimes.sh
+I did this script as an exam. I really enjoyed creating it and am very proud to have built it in like 30 minutes of learning lots of new stuff.

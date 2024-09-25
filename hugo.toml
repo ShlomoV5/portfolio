@@ -1,4 +1,4 @@
 baseURL = 'https://shlomo.vachman.net/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'Shlomo Vachman's portfolio'
 theme = 'hugo-developer-portfolio'

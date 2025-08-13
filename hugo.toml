@@ -1,4 +1,0 @@
-baseURL = 'https://shlomo.vachman.net/'
-languageCode = 'en-us'
-title = 'Shlomo Vachman's portfolio'
-theme = 'hugo-developer-portfolio'
